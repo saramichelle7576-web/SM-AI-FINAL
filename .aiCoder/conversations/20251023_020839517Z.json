@@ -1,0 +1,15 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "hello",
+      "hidden": false
+    }
+  ],
+  "title": "",
+  "id": "20251023_020839517Z",
+  "targetFile": null,
+  "chatMode": "chat",
+  "conversationNew": true,
+  "lastModified": "2025-10-23T02:08:39.521Z"
+}
