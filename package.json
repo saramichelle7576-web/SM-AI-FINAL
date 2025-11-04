@@ -3,13 +3,15 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "build": "npm install" 
   },
   "dependencies": {
     "@google-cloud/text-to-speech": "^6.3.1",
     "@google/genai": "^1.25.0",
     "@google/generative-ai": "^0.24.1",
     "cookie-parser": "~1.4.4",
+    "cross-env": "^10.1.0",
     "debug": "~2.6.9",
     "dotenv": "^17.2.3",
     "express": "^4.21.2",
@@ -20,3 +22,4 @@
     "stripe": "^19.2.0"
   }
 }
+

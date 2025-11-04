@@ -1,0 +1,25 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "hello\n",
+      "hidden": false
+    },
+    {
+      "role": "user",
+      "content": "lets get you a voice and on our web page\n",
+      "hidden": false
+    },
+    {
+      "role": "user",
+      "content": "do you have any new marketing products that will help drive traffic to our page?",
+      "hidden": false
+    }
+  ],
+  "title": "    MY-MY IS THE BiZ",
+  "id": "20251102_054713577Z",
+  "targetFile": null,
+  "chatMode": "chat",
+  "conversationNew": true,
+  "lastModified": "2025-11-03T06:19:29.492Z"
+}
