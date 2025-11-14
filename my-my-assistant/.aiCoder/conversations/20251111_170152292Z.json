@@ -1,0 +1,15 @@
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "hi My-My are you ready to get our [roducts launched?\n",
+      "hidden": false
+    }
+  ],
+  "title": "",
+  "id": "20251111_170152292Z",
+  "targetFile": null,
+  "chatMode": "chat",
+  "conversationNew": true,
+  "lastModified": "2025-11-11T17:01:52.293Z"
+}

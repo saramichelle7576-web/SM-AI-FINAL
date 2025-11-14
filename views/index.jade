@@ -1,8 +1,84 @@
-extends layout
+exextends layout
 
 block content
   h1= title
   p Welcome to our enterprise. This is the homepage.
-  
+
   h2 Our Products
   p Our amazing subscription packages will be listed here soon!
+
+  // --- NEW AI CHAT SECTION ---
+  h2 AI Chat
+  div#chat-history(style="border: 1px solid #ccc; min-height: 100px; padding: 10px; background: #f9f9f9;")
+  input#prompt-input(type="text", placeholder="Ask the AI anything...", style="width: 80%;")
+  button#send-button Send
+
+  // --- NEW JAVASCRIPT ---
+  // Note the dot after 'script' - this is important in Jade
+  script.
+    // Get the elements
+    const sendButton = document.getElementById('send-button');
+    const promptInput = document.getElementById('prompt-input');
+    const chatHistory = document.getElementById('chat-history');
+
+    // Function to add a message to the chat box
+    function addMessage(sender, message) {
+      const messageElement = document.createElement('p');
+      // A simple way to prevent HTML injection
+      const cleanMessage = message.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      messageElement.innerHTML = `<strong>${sender}:</strong> ${cleanMessage}`;
+      chatHistory.appendChild(messageElement);
+    }
+
+    // Function to handle sending the chat
+    async function sendChat() {
+      const prompt = promptInput.value;
+      if (!prompt) return; // Don't send empty messages
+
+      // Display user's message
+      addMessage('You', prompt);
+      const originalPrompt = promptInput.value; // Save prompt
+      promptInput.value = '...thinking...'; // Show loading
+      promptInput.disabled = true;
+      sendButton.disabled = true;
+
+      // Send to server and get response
+      try {
+        const response = await fetch('/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt: originalPrompt }), // Send original prompt
+        });
+
+        if (!response.ok) {
+          throw new Error('Server responded with an error');
+        }
+
+        const data = await response.json();
+
+        // Display AI's message
+        addMessage('AI', data.response);
+
+      } catch (error) {
+        console.error('Error:', error);
+        addMessage('Error', 'Sorry, something went wrong.');
+      } finally {
+        // Re-enable input
+        promptInput.value = '';
+        promptInput.disabled = false;
+        sendButton.disabled = false;
+        promptInput.focus(); // Put cursor back in input
+      }
+    }
+
+    // Listen for the button click
+    sendButton.addEventListener('click', sendChat);
+
+    // Listen for the 'Enter' key
+    promptInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        sendChat();
+      }
+    });

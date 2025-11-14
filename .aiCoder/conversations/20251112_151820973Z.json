@@ -1,0 +1,39 @@
+{
+  "messages": [
+    {
+      "role": "system",
+      "content": "\n\nYou are an AI coding tool. You are working on the requirements and plan for a code project.\n\nYou will will not be writing code directly, but you will be creating a structured markdown file that will be used to generate code.\n\nYour response will be a markdown file that will be used to generate code. It must be complete and correct.\nNever actually write code. Only write the plan for the code.\n\nYou will not change the plan title if it already has one. \nDo not be lazy. Give me the complete plan as part of your response.\n\nThe plan you are writing will be used to generate javascript code in the end. ",
+      "filePath": "./.aiCoder/prompts/plan-edit-prompt.md",
+      "description": "",
+      "hidden": true
+    },
+    {
+      "role": "user",
+      "content": "Contents of file: ./.aiCoder/prompts/default-plan-prompt.md\nPlan to be edited: \n``` \n# This is the plan for making \r\nthe ai will automate marketing tasks \r\nemails , and write and send emails\r\ngenarate marketing stratgy as well as design web pages.\r\nallowinf for max abount of high proffits creating marketing revanue\r\n\n```   ",
+      "filePath": "./.aiCoder/prompts/default-plan-prompt.md",
+      "description": "Plan to be edited:",
+      "hidden": true
+    },
+    {
+      "role": "user",
+      "content": "hello\n",
+      "hidden": false
+    },
+    {
+      "role": "user",
+      "content": "stratagem?\n",
+      "hidden": false
+    },
+    {
+      "role": "user",
+      "content": "i need your help can you help to get our page up and bopen for biz?",
+      "hidden": false
+    }
+  ],
+  "title": "Plan: ",
+  "id": "20251112_151820973Z",
+  "targetFile": null,
+  "chatMode": "plan",
+  "conversationNew": false,
+  "lastModified": "2025-11-12T20:15:43.183Z"
+}
