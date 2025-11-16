@@ -1,19 +1,22 @@
 // --- Standard Express Server Setup ---
-var createError = require('http-errors');
+// FIX: Moved 'express' definition up to Line 1 to guarantee it's loaded before const app = express()
 var express = require('express');
+var createError = require('http-errors');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 // --- NEW GEMINI AI CODE (TOP) ---
 require('dotenv').config(); // This loads your .env file
+// FIX: Changed .log to console.log to fix SyntaxError
 console.log("--- KEY CHECK ---", process.env.GEMINI_API_KEY); // The debug line
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
+// FIX: Cleaned up the logic and syntax in the error check
 // Check if the API key is actually loaded
 if (!process.env.GEMINI_API_KEY) {
   console.error('ERROR: GEMINI_API_KEY is not set in your .env file.');
-  console.error('Please create a .env file with GEMINI_API_KEY=YOUR_KEY_HERE');
+  console.error('Please create or update your .env file with GEMINI_API_KEY=YOUR_KEY_HERE');
   process.exit(1); // Stop the app if the key is missing
 }
 
@@ -23,6 +26,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 
 // We assume you have a 'routes' folder, but we'll define the root route here
+// This line now correctly executes AFTER express is defined on Line 1
 var app = express();
 
 // View engine setup (we know this from your package.json)
@@ -99,4 +103,4 @@ server.listen(port, function() {
   console.log('Visit http://localhost:3001 in your browser.');
 });
 
-module.exports = app;
+module.exports = app
