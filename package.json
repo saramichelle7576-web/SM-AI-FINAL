@@ -11,6 +11,7 @@
     "@google-cloud/text-to-speech": "^6.3.1",
     "@google/genai": "^1.25.0",
     "@google/generative-ai": "^0.24.1",
+    "@vercel/sdk": "^1.17.1",
     "ai": "^5.0.93",
     "cookie-parser": "~1.4.4",
     "cross-env": "^10.1.0",
