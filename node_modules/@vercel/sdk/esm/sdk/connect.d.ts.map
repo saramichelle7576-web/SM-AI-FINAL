@@ -1,0 +1,1 @@
+{"version":3,"file":"connect.d.ts","sourceRoot":"","sources":["../../src/sdk/connect.ts"],"names":[],"mappings":"AAKA,OAAO,EAAE,SAAS,EAAE,cAAc,EAAE,MAAM,gBAAgB,CAAC;AAC3D,OAAO,EACL,sBAAsB,EACtB,2BAA2B,EAC5B,MAAM,gCAAgC,CAAC;AAGxC,qBAAa,OAAQ,SAAQ,SAAS;IACpC;;;;;OAKG;IACG,eAAe,CACnB,OAAO,EAAE,sBAAsB,EAC/B,OAAO,CAAC,EAAE,cAAc,GACvB,OAAO,CAAC,KAAK,CAAC,2BAA2B,CAAC,CAAC;CAO/C"}
