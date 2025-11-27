@@ -1,0 +1,33 @@
+{
+  "name": "my-ai-assistant",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node dist/index.js",
+    "build": "babel src --out-dir dist",
+    "prestart": "npm run build"
+  },
+  "dependencies": {
+    "@ai-sdk/groq": "^2.0.29",
+    "@google-cloud/text-to-speech": "^6.3.1",
+    "@google/genai": "^1.25.0",
+    "@google/generative-ai": "^0.24.1",
+    "@vercel/sdk": "^1.17.1",
+    "ai": "^5.0.93",
+    "cookie-parser": "~1.4.4",
+    "cross-env": "^10.1.0",
+    "debug": "~2.6.9",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "http-errors": "~1.6.3",
+    "jade": "^0.29.0",
+    "morgan": "~1.10.1",
+    "say": "^0.16.0",
+    "stripe": "^19.2.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0"
+  }
+}

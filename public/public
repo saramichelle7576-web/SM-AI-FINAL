@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY-MY AI Business Assistant</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 30px auto; padding: 20px; background-color: #f4f4f9; }
+        h1 { text-align: center; color: #333; margin-bottom: 25px; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+        h2 { border-bottom: 2px solid #eee; padding-bottom: 10px; margin-top: 20px; color: #555; }
+        
+        /* Voice Chat Styles */
+        #chat-section button { padding: 12px 25px; font-size: 1.1em; cursor: pointer; background-color: #28a745; color: white; border: none; border-radius: 5px; transition: background-color 0.3s; }
+        #chat-section button:hover { background-color: #218838; }
+        #chat-output { border: 1px solid #ccc; padding: 15px; min-height: 100px; text-align: left; margin-top: 15px; background-color: #fafafa; white-space: pre-wrap; font-size: 0.9em; border-radius: 4px; }
+        #status { color: #555; margin-top: 10px; font-style: italic; }
+
+        /* Tool Forms Styles */
+        .tool-form { margin-top: 20px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; }
+        .tool-form label { display: block; margin-top: 10px; font-weight: bold; }
+        .tool-form input[type="text"] { width: 95%; padding: 10px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+        .tool-form button { margin-top: 15px; padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
+        .tool-form button:hover { background-color: #0056b3; }
+        .tool-result { margin-top: 15px; background-color: #f0f8ff; padding: 15px; border-radius: 4px; overflow-x: auto; }
+        pre { white-space: pre-wrap; word-wrap: break-word; font-family: monospace; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>MY-MY AI Business Partner</h1>
+
+        <section id="chat-section" style="text-align: center;">
+            <h2>🎙️ Voice Chat Assistant</h2>
+            <button id="microphone-button">Start Listening</button>
+            <p id="status">Press the button and ask a business question.</p>
+            <div id="chat-output">Assistant Log:</div>
+        </section>
+
+        <h2>🔗 Affiliate Strategy Generator</h2>
+        <form id="strategy-form" class="tool-form">
+            <label for="product-strategy">Product Idea:</label>
+            <input type="text" id="product-strategy" placeholder="e.g., Solar-Powered Phone Charger" required>
+
+            <label for="audience-strategy">Target Audience:</label>
+            <input type="text" id="audience-strategy" placeholder="e.g., Digital nomads who travel frequently" required>
+            
+            <button type="submit">Generate Link Strategy</button>
+            <div id="strategy-result" class="tool-result" style="display: none;">
+                <pre id="strategy-output"></pre>
+            </div>
+        </form>
+
+        <h2>📧 Email Sequence Generator (AIDA)</h2>
+        <form id="email-form" class="tool-form">
+            <label for="product-email">Product Idea:</label>
+            <input type="text" id="product-email" placeholder="e.g., Time-Management App" required>
+
+            <label for="audience-email">Target Audience:</label>
+            <input type="text" id="audience-email" placeholder="e.g., Remote workers struggling with productivity" required>
+            
+            <button type="submit">Generate Email Sequence</button>
+            <div id="email-result" class="tool-result" style="display: none;">
+                <pre id="email-output"></pre>
+            </div>
+        </form>
+
+    </div> <script>
+        // --- Core Voice Chat Logic (Same as before) ---
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const micButton = document.getElementById('microphone-button');
+        const statusText = document.getElementById('status');
+        const chatOutputDiv = document.getElementById('chat-output');
+
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.continuous = false;
+            recognition.lang = 'en-US'; 
+            recognition.interimResults = false;
+
+            recognition.onstart = () => {
+                statusText.textContent = 'Listening... Speak now.';
+                micButton.textContent = '... LISTENING ...';
+                micButton.disabled = true;
+            };
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                chatOutputDiv.innerHTML += `<br><strong>You:</strong> ${transcript}`;
+                sendToChatBackend(transcript);
+            };
+
+            recognition.onend = () => {
+                micButton.textContent = 'Start Listening';
+                micButton.disabled = false;
+                statusText.textContent = 'Processing...';
+            };
+
+            recognition.onerror = (event) => {
+                statusText.textContent = `Error: ${event.error}. Try again.`;
+                micButton.textContent = 'Start Listening';
+                micButton.disabled = false;
+                console.error('Speech Recognition Error:', event.error);
+            };
+
+            micButton.addEventListener('click', () => {
+                try { recognition.start(); } catch (e) { 
+                    if (e.name !== 'InvalidStateError') console.error(e);
+                }
+            });
+
+            async function sendToChatBackend(text) {
+                try {
+                    const response = await fetch('/chat', { // Check the /chat route
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: text }),
+                    });
+                    const data = await response.json();
+                    
+                    const aiResponse = data.reply || data.error;
+                    chatOutputDiv.innerHTML += `<br><strong>AI:</strong> ${aiResponse}`;
+                    statusText.textContent = 'Response received. Ready.';
+
+                } catch (error) {
+                    console.error('Error communicating with chat backend:', error);
+                    statusText.textContent = `Backend Error: ${error.message}`;
+                }
+            }
+        } else {
+            statusText.textContent = 'Speech Recognition not supported in this browser.';
+            micButton.disabled = true;
+        }
+
+        // --- Marketing Tool Logic ---
+
+        // Helper function for tool submission
+        async function runTool(endpoint, product, audience, outputElement) {
+            outputElement.innerHTML = 'Processing...';
+            
+            try {
+                const response = await fetch(endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ product, audience }),
+                });
+
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    // Use JSON.stringify for a clean, formatted output
+                    outputElement.innerHTML = JSON.stringify(data.strategy || data.sequence, null, 2);
+                } else {
+                    outputElement.innerHTML = `ERROR: ${data.message || data.error}`;
+                }
+
+            } catch (error) {
+                outputElement.innerHTML = `FETCH ERROR: ${error.message}`;
+            } finally {
+                // Display the result box after processing
+                document.getElementById(outputElement.id.replace('-output', '-result')).style.display = 'block';
+            }
+        }
+
+        // 1. Link Strategy Form Handler
+        document.getElementById('strategy-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const product = document.getElementById('product-strategy').value;
+            const audience = document.getElementById('audience-strategy').value;
+            runTool('/generate-link-strategy', product, audience, document.getElementById('strategy-output'));
+        });
+
+        // 2. Email Sequence Form Handler
+        document.getElementById('email-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const product = document.getElementById('product-email').value;
+            const audience = document.getElementById('audience-email').value;
+            runTool('/generate-email-sequence', product, audience, document.getElementById('email-output'));
+        });
+    </script>
+</body>
+</html>

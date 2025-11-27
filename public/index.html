@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MY-MY AI Business Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .tab-button {
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            padding: 0.5rem 1rem;
+        }
+        .tab-button.active {
+            border-color: #10b981; /* emerald-500 */
+            color: #10b981;
+            font-weight: 600;
+        }
+        .chat-container {
+            height: calc(100vh - 10rem); /* Adjusted for better fit */
+        }
+        .message-bubble {
+            max-width: 80%;
+            border-radius: 12px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+        }
+        .user-bubble {
+            background-color: #3b82f6; /* blue-500 */
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+        .assistant-bubble {
+            background-color: #e5e7eb; /* gray-200 */
+            color: #1f2937; /* gray-800 */
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+        .tool-panel {
+            min-height: 70vh;
+        }
+    </style>
+</head>
+<body class="p-4">
+
+    <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 flex items-center">
+            <svg class="w-8 h-8 mr-2 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-1.28-8.455-3.645M9 17.25c-2.454 0-4.707-1.077-6.25-2.827M15 17.25c2.454 0 4.707-1.077 6.25-2.827M12 21.75c-3.183 0-6.22-1.28-8.455-3.645m8.455 3.645A23.931 23.931 0 0121 13.255M12 21.75V15m0 0l-4-4m4 4l4-4m-4 0V3"></path></svg>
+            MY-MY Business Assistant
+        </h1>
+
+        <div class="flex border-b border-gray-200 mb-6">
+            <div id="tab-chat" class="tab-button active text-emerald-500" onclick="switchTool('chat')">Chat Assistant</div>
+            <div id="tab-affiliate" class="tab-button text-gray-500" onclick="switchTool('affiliate')">Affiliate Strategy</div>
+            <div id="tab-email" class="tab-button text-gray-500" onclick="switchTool('email')">Email Sequence Generator</div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            
+            <div id="content-chat" class="tool-content lg:col-span-2 bg-white rounded-xl shadow-lg p-6 chat-container flex flex-col">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">MY-MY Conversation</h2>
+                
+                <div id="chat-messages" class="flex-grow overflow-y-auto pr-2 flex flex-col">
+                    <div class="flex justify-start">
+                        <div class="message-bubble assistant-bubble">Hello! I'm MY-MY, your expert business partner. How can I help you with affiliate marketing or traffic funnels today?</div>
+                    </div>
+                </div>
+
+                <form onsubmit="sendChatMessage(); return false;" class="flex mt-4">
+                    <input type="text" id="chat-input" placeholder="Ask MY-MY a marketing question..." 
+                           class="flex-grow p-3 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-emerald-500" required>
+                    <button type="submit" id="chat-send-btn" 
+                            class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 px-6 rounded-r-lg transition duration-150 ease-in-out disabled:bg-gray-400">
+                        Send
+                    </button>
+                </form>
+            </div>
+
+            <div id="content-affiliate" class="tool-content hidden lg:col-span-3 bg-white rounded-xl shadow-lg p-6 tool-panel">
+                <h2 class="text-2xl font-semibold mb-4 text-gray-700 border-b pb-3">Affiliate Strategy Generator</h2>
+                <p class="text-gray-600 mb-6">Use MY-MY to generate a full marketing strategy based on your affiliate product idea.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <form onsubmit="generateAffiliateStrategy(event);" class="space-y-4">
+                        <div>
+                            <label for="aff-product" class="block text-sm font-medium text-gray-700 mb-1">Product to Promote (e.g., "Smart Fitness Tracker")</label>
+                            <input type="text" id="aff-product" required 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                   placeholder="e.g., High-Protein Vegan Cookbook">
+                        </div>
+                        <div>
+                            <label for="aff-audience" class="block text-sm font-medium text-gray-700 mb-1">Target Audience (e.g., "Beginner Weightlifters")</label>
+                            <input type="text" id="aff-audience" required 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                   placeholder="e.g., Busy new parents">
+                        </div>
+                        <button type="submit" id="aff-generate-btn" 
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition duration-150 ease-in-out disabled:bg-gray-400 flex items-center justify-center">
+                                Generate Strategy
+                        </button>
+                    </form>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <h3 class="font-bold text-lg mb-3 text-gray-800">MY-MY's Strategy Plan:</h3>
+                        <div id="aff-output" class="text-gray-700 text-sm whitespace-pre-wrap">
+                            Click 'Generate Strategy' to receive a plan here.
+                        </div>
+                        <div id="aff-loading" class="hidden text-center text-blue-500 mt-4">
+                            <svg class="animate-spin h-5 w-5 mr-3 inline text-blue-500" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                            Generating comprehensive marketing strategy...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="content-email" class="tool-content hidden lg:col-span-3 bg-white rounded-xl shadow-lg p-6 tool-panel">
+                <h2 class="text-2xl font-semibold mb-4 text-gray-700 border-b pb-3">Email Sequence Generator (AIDA)</h2>
+                <p class="text-gray-600 mb-6">Create a 3-step email sequence using the Attention, Interest, Desire framework for your funnel.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <form onsubmit="generateEmailSequence(event);" class="space-y-4">
+                        <div>
+                            <label for="email-product" class="block text-sm font-medium text-gray-700 mb-1">Product/Service (e.g., "7-Day Diet Plan")</label>
+                            <input type="text" id="email-product" required 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                   placeholder="e.g., Financial Coaching Service">
+                        </div>
+                        <div>
+                            <label for="email-audience" class="block text-sm font-medium text-gray-700 mb-1">Audience Segment (e.g., "Leads who downloaded a free budget template")</label>
+                            <input type="text" id="email-
