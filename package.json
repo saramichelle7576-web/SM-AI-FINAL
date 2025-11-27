@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node index.js",
-    "build": "npm install"
+    "start": "node dist/index.js",
+    "build": "babel src --out-dir dist",
+    "prestart": "npm run build"
   },
   "dependencies": {
     "@ai-sdk/groq": "^2.0.29",
@@ -20,8 +21,13 @@
     "express": "^4.21.2",
     "http-errors": "~1.6.3",
     "jade": "^0.29.0",
-    "morgan": "^1.10.1",
+    "morgan": "~1.10.1",
     "say": "^0.16.0",
     "stripe": "^19.2.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0"
   }
 }
